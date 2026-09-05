@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-function CategorySelect() {
+function CategorySelect({change_handler}) {
     // Get category list from backend
     // for each category listed add a select option
     // plus new category option with different link (maybe later)
@@ -10,30 +10,33 @@ function CategorySelect() {
         options.push(<option value={elem}>{elem}</option>)
     }
     return (
-        <select name="category">
+        <select name="category" onChange={change_handler}>
             {options}
         </select>
     );
 }
 
-function DaysCheck({dayNbr, daystr, change_handler, data}){
+function DaysCheck({dayNbr, daystr, change_handler, days}){
     const name = "days["+ dayNbr +"]"
     return(
         <label>
               <input type="checkbox"
                  name={name}
-                 checked={data.days[dayNbr]}
+                 checked={days.dayNbr}
                  onChange={change_handler}
               /> {daystr}
           </label>
     );
 }
 
+
+
+
 function Form(){
+    const [days, setdays] = useState({0: false, 1:false, 2: false, 3:false, 4:false, 5:false, 6:false})
     const [data, setdata] = useState({
         name: "",
         start_time: 0,
-        days: {0: false, 1:false, 2:false, 3:false, 4:false, 5:false, 6:false},
         esc_steps: 0,
         category: "",
     });
@@ -43,52 +46,14 @@ function Form(){
         const target = e.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = target.name;
-        setdata(values => ({...values, [name]: {
-            switch(name) {
-                case "days[0]":
-                    {}
-                    break;
-                case
-                    "days[1]"
-                :
-                    data.days[1] = value;
-                    break;
-                case
-                    "days[2]"
-                :
-                    data.days[2] = value;
-                    break;
-                case
-                    "days[3]"
-                :
-                    data.days[3] = value;
-                    break;
-                case
-                    "days[4]"
-                :
-                    data.days[4] = value;
-                    break;
-                case
-                    "days[5]"
-                :
-                    data.days[5] = value;
-                    break;
-                case
-                    "days[6]"
-                :
-                    const day = 6;
-
-                    //data.days[6] = value;
-                    break;
-                default:
-                    value
-                }
-                break;
-            }));
+        if (name.includes("days")){
+            setdays(values => ({...values, [name.substring(5, 6)]: value}));
+            console.log("days state", days);
+        } else{
+            setdata(values => ({...values, [name]: value}));
         }
         console.log(target, value, name);
         console.log(data)
-        console.log(data.days);
 
     }
     function submit_handler(data){
@@ -109,13 +74,13 @@ function Form(){
                  value={data.start_time}
                  onChange={change_handler}
           />
-          <DaysCheck dayNbr={"0"} daystr={"Monday"} change_handler={change_handler} data={data}/>
-          <DaysCheck dayNbr={"1"} daystr={"Tuesday"} change_handler={change_handler} data={data}/>
-          <DaysCheck dayNbr={"2"} daystr={"Wednesday"} change_handler={change_handler} data={data}/>
-          <DaysCheck dayNbr={"3"} daystr={"Thursday"} change_handler={change_handler} data={data}/>
-          <DaysCheck dayNbr={"4"} daystr={"Friday"} change_handler={change_handler} data={data}/>
-          <DaysCheck dayNbr={"5"} daystr={"Saturday"} change_handler={change_handler} data={data}/>
-          <DaysCheck dayNbr={"6"} daystr={"Sunday"} change_handler={change_handler} data={data}/>
+          <DaysCheck dayNbr={"0"} daystr={"Monday"} change_handler={change_handler} days={days}/>
+          <DaysCheck dayNbr={"1"} daystr={"Tuesday"} change_handler={change_handler} days={days}/>
+          <DaysCheck dayNbr={"2"} daystr={"Wednesday"} change_handler={change_handler} days={days}/>
+          <DaysCheck dayNbr={"3"} daystr={"Thursday"} change_handler={change_handler} days={days}/>
+          <DaysCheck dayNbr={"4"} daystr={"Friday"} change_handler={change_handler} days={days}/>
+          <DaysCheck dayNbr={"5"} daystr={"Saturday"} change_handler={change_handler} days={days}/>
+          <DaysCheck dayNbr={"6"} daystr={"Sunday"} change_handler={change_handler} days={days}/>
 
           <input type="range"
                  name="esc_steps"
@@ -125,7 +90,8 @@ function Form(){
                  max="5"
                  step="1"
           />
-          <CategorySelect/>
+          <CategorySelect change_handler={change_handler}/>
+          <button type="submit"> submit </button>
       </form>
     );
 }
