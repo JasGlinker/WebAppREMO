@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 
 function CategorySelect({change_handler}) {
-    // Get category list from backend
-    // for each category listed add a select option
+    // TODO: Get category list from backend
+    
     // plus new category option with different link (maybe later)
     const ex = ["Work", "University", "Lifestyle"];
     const options = []
+    // for each category listed add a select option
     for (const elem of ex){
         options.push(<option value={elem}>{elem}</option>)
     }
@@ -42,7 +43,6 @@ function Form(){
     });
 
     const change_handler = (e) => {
-        console.timeStamp()
         const target = e.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = target.name;
@@ -52,14 +52,30 @@ function Form(){
         } else{
             setdata(values => ({...values, [name]: value}));
         }
+        console.timeStamp();
         console.log(target, value, name);
-        console.log(data)
+        console.log(data);
 
     }
-    function submit_handler(data){
+    const submit_handler = (e) => {
+        e.preventDefault();
+        console.log(data);
+        console.log("submit clicked");
 
+        const formData = new FormData();
+        for (const el in data){
+            formData.append(el, data[el]);
+        }
+        for (const el in days){
+            formData.append(el, days[el]);
+        }
+        console.log(formData)
+
+        fetch("/create", {method: "POST", body: formData})
+            .catch(error => {
+                alert("error submitting");
+                console.log(error);})
     }
-
     return(
        <form onSubmit={submit_handler}>
           <input type="text"
@@ -91,7 +107,7 @@ function Form(){
                  step="1"
           />
           <CategorySelect change_handler={change_handler}/>
-          <button type="submit"> submit </button>
+          <button type="submit" onClick={submit_handler}> submit </button>
       </form>
     );
 }
