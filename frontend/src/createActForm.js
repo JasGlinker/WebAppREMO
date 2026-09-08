@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from "react";
 
-function CategorySelect({change_handler}) {
-    // TODO: Get category list from backend
-    
+function CategorySelect({cat, change_handler}) {
     // plus new category option with different link (maybe later)
-    const ex = ["Work", "University", "Lifestyle"];
     const options = []
     // for each category listed add a select option
-    for (const elem of ex){
+    for (const elem of cat){
         options.push(<option value={elem}>{elem}</option>)
     }
     return (
@@ -31,8 +28,6 @@ function DaysCheck({dayNbr, daystr, change_handler, days}){
 }
 
 
-
-
 function Form(){
     const [days, setdays] = useState({0: false, 1:false, 2: false, 3:false, 4:false, 5:false, 6:false})
     const [data, setdata] = useState({
@@ -41,6 +36,25 @@ function Form(){
         esc_steps: 0,
         category: "",
     });
+
+    const [cat, setCat] = useState([]);
+    useEffect(()=>{
+        console.log("useEffect used")
+        fetch("/data")
+            .then((res) => res.json())
+            .then((el) => {
+                console.log("fetch response in use effect")
+                for (const e in el){
+                    console.log(el[e])
+                    setCat(values => [...values, el[e]])
+                }
+                console.log(el);
+                console.log("inside cat");
+
+            });
+    }, [])
+
+
 
     const change_handler = (e) => {
         const target = e.target;
@@ -106,7 +120,7 @@ function Form(){
                  max="5"
                  step="1"
           />
-          <CategorySelect change_handler={change_handler}/>
+          <CategorySelect cat={cat} change_handler={change_handler}/>
           <button type="submit" onClick={submit_handler}> submit </button>
       </form>
     );

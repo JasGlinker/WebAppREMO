@@ -22,6 +22,7 @@ class DataAccess:
 
     #CRUD operations
     def create(self, data: Dict[str, Any]) -> int:
+        print("in DA create")
         conn = self._get_connection()
         cursor = conn.cursor()
 
@@ -32,8 +33,6 @@ class DataAccess:
         try:
             cursor.execute(query, list(data.values()))
             conn.commit()
-            last_id = cursor.lastrowid
-            return last_id
         finally:
             cursor.close()
             conn.close()
@@ -47,6 +46,19 @@ class DataAccess:
         try:
             cursor.execute(query, (id,))
             result = cursor.fetchone()
+            return result
+        finally:
+            cursor.close()
+            conn.close()
+
+    def read_all(self) -> Dict[str, Any]:
+        conn = self._get_connection()
+        cursor = conn.cursor(dictionary=True)
+
+        query = f"SELECT * FROM {self.table_name}"
+        try:
+            cursor.execute(query)
+            result = cursor.fetchall()
             return result
         finally:
             cursor.close()
