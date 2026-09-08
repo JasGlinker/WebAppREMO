@@ -1,21 +1,43 @@
+import datetime
+
 from flask import Blueprint, render_template, request, jsonify
 from DataAccess.activitiesDataAccess import ActivitiesDataAccess
+from DataAccess.categoriesDataAccess import CategoriesDataAccess
+
 
 
 actDA = ActivitiesDataAccess()
-create_page = Blueprint('create', __name__)
+CatDA = CategoriesDataAccess()
+create_page = Blueprint('create', __name__, static_folder='../frontend/src', template_folder='../frontend/public')
 
 @create_page.route('/create', methods=['GET','POST'])
 def create():
+    print("in create")
     if request.method == 'POST':
+        print("in post")
         try:
+            print(request.form)
             name = request.form['name']
-            days = request.form['days']
+            print(name)
+            act_time = request.form['start_time']+":00"
+            print(act_time)
             category = request.form['category']
-            act_time = request.form['act_time']
+            ## get category id from name
+            ca_id = CatDA.get_category_by_name(category)[0]
+            print(ca_id)
             esc_steps = request.form['esc_steps']
-
-            actDA.create_activity(name, act_time, days, esc_steps, category)
+            temp_days = [request.form['0'], request.form['1'], request.form['2'], request.form['3'], request.form['4'], request.form['5'], request.form['6']]
+            days = ''
+            for i in range(0, len(temp_days)-1):
+                if temp_days[i] == 'true':
+                    days = days + str(i) + ","
+            if days:
+                days = days.strip(',')
+            else:
+                days = str(datetime.date.today().weekday())
+            print(days)
+            print(int(esc_steps))
+            actDA.create_activity(name, act_time, days, int(esc_steps), ca_id)
             return jsonify(success=True)
         except ValueError as e:
             return str(e), 400
