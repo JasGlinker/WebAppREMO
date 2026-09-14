@@ -4,4 +4,5 @@ dbms maria db
 configure config.json for mariadb connection
 run setupdb.py
 
-to run app start backend app.py and frontend with npm start in terminal
+to run app start backend server.py
+start frontend in terminal first cd frontend then npm start

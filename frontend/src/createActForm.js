@@ -75,20 +75,25 @@ function Form(){
         e.preventDefault();
         console.log(data);
         console.log("submit clicked");
-
-        const formData = new FormData();
-        for (const el in data){
-            formData.append(el, data[el]);
+        if (!data.name || !data.start_time){
+            alert("new activity needs to have a name and time")
         }
-        for (const el in days){
-            formData.append(el, days[el]);
-        }
-        console.log(formData)
+        else{
+            const formData = new FormData();
+            for (const el in data){
+                formData.append(el, data[el]);
+            }
+            for (const el in days){
+                formData.append(el, days[el]);
+            }
+            console.log(formData)
 
-        fetch("/create", {method: "POST", body: formData})
-            .catch(error => {
-                alert("error submitting");
-                console.log(error);})
+            fetch("/create", {method: "POST", body: formData})
+                .catch(error => {
+                    alert("error submitting");
+                    console.log(error);})
+        }
+
     }
     return(
        <form onSubmit={submit_handler}>
