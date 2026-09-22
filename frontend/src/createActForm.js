@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import {useNavigate} from "react-router-dom";
 
 function CategorySelect({cat, change_handler}) {
     // plus new category option with different link (maybe later)
@@ -71,6 +72,8 @@ function Form(){
         console.log(data);
 
     }
+
+    const navigate = useNavigate()
     const submit_handler = (e) => {
         e.preventDefault();
         console.log(data);
@@ -92,6 +95,7 @@ function Form(){
                 .catch(error => {
                     alert("error submitting");
                     console.log(error);})
+            navigate("/")
         }
 
     }
