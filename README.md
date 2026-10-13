@@ -30,3 +30,8 @@ run setupdb.py
 to run app start backend App.py
 
 start frontend in terminal first cd frontend then npm start
+
+IMPORTANT NOTE:
+
+If you have run setup db before 13.10.2026 please drop the current database and 
+run the new setupdb for the changes in db structure to take effect.
