@@ -33,6 +33,8 @@ class DataAccess:
         try:
             cursor.execute(query, list(data.values()))
             conn.commit()
+            last_id = cursor.lastrowid
+            return last_id
         finally:
             cursor.close()
             conn.close()

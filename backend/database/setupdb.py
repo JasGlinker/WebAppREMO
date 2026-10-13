@@ -23,11 +23,18 @@ cursor.execute("""CREATE TABLE IF NOT EXISTS activities (
     act_id int PRIMARY KEY AUTO_INCREMENT,
     act_name varchar(255) NOT NULL, 
     start_time TIME NOT NULL,
-    days SET('0', '1', '2', '3', '4', '5', '6') NOT NULL,
     esc_steps TINYINT(1) DEFAULT 3,
     category int,
     CONSTRAINT fk_cat_id FOREIGN KEY (category) REFERENCES categories(ca_id) ON DELETE SET NULL  
 )""")
+# make table for recurring days
+cursor.execute("""CREATE TABLE IF NOT EXISTS days (
+    act_id int NOT NULL,
+    day_nmbr int NOT NULL,
+    CONSTRAINT fk_act_id FOREIGN KEY (act_id) REFERENCES activities(act_id) ON DELETE CASCADE,
+    PRIMARY KEY (act_id, day_nmbr))
+    """
+)
 # make table for escalation steps
 cursor.execute("""CREATE TABLE IF NOT EXISTS escalations (
     esc_id int PRIMARY KEY AUTO_INCREMENT,

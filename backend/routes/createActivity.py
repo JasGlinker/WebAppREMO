@@ -1,4 +1,5 @@
 import datetime
+from typing import List
 
 from flask import Blueprint, render_template, request, jsonify
 from DataAccess.activitiesDataAccess import ActivitiesDataAccess
@@ -27,17 +28,15 @@ def create():
             print(ca_id)
             esc_steps = request.form['esc_steps']
             temp_days = [request.form['0'], request.form['1'], request.form['2'], request.form['3'], request.form['4'], request.form['5'], request.form['6']]
-            days = ''
+            days: List[int] = []
             for i in range(0, len(temp_days)-1):
                 if temp_days[i] == 'true':
-                    days = days + str(i) + ","
-            if days:
-                days = days.strip(',')
-            else:
-                days = str(datetime.date.today().weekday())
+                    days.append(i)
+            if not days:
+                days = [int(datetime.date.today().strftime("%Y%m%d"))]
             print(days)
             print(int(esc_steps))
-            actDA.create_activity(name, act_time, days, int(esc_steps), ca_id)
+            actDA.create_activity(name=name, start_time=act_time, esc_steps=int(esc_steps), ca_id=ca_id, days=days)
             return jsonify(success=True)
         except ValueError as e:
             return str(e), 400
