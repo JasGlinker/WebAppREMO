@@ -16,7 +16,7 @@ function WeekView(){
     useEffect(() => {
         fetch('/weekView', {method: "GET"})
             .then((res) => res.json())
-            .then((el)=>{
+            .then((el)=> {
                 const weekdays = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"]
                 for (let i = 0; i < 7; i++){
                     for (const e in el[i]){

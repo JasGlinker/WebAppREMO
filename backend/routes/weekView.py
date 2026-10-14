@@ -1,5 +1,3 @@
-import datetime
-
 from flask import Blueprint, jsonify
 from DataAccess.activitiesDataAccess import ActivitiesDataAccess
 from DataAccess.daysDataAccess import DaysDataAccess
@@ -17,7 +15,7 @@ def weekView():
     ids = []
     for i in range(0, 7):
         temp_ids = daysDA.get_all_by_day(i)
-        temp_dt = int((today + datetime.timedelta(days = (-today.weekday() + i))).strftime("%Y%m%d"))
+        temp_dt = int((today + dt.timedelta(days = (-today.weekday() + i))).strftime("%Y%m%d"))
         temp_ids.append(daysDA.get_all_by_day(temp_dt))
         print("week temp_ids", temp_ids)
         act_ids = []
