@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {useNavigate} from "react-router-dom";
+import "./App.css";
 
 function CategorySelect({cat, change_handler}) {
     // plus new category option with different link (maybe later)
@@ -24,10 +25,9 @@ function DaysCheck({dayNbr, daystr, change_handler, days}){
                  checked={days.dayNbr}
                  onChange={change_handler}
               /> {daystr}
-          </label>
+        </label>
     );
 }
-
 
 function Form(){
     const [days, setdays] = useState({0: false, 1:false, 2: false, 3:false, 4:false, 5:false, 6:false})
@@ -36,6 +36,8 @@ function Form(){
         start_time: 0,
         esc_steps: 0,
         category: "",
+        date: "",
+        wdh: false
     });
 
     const [cat, setCat] = useState([]);
@@ -113,14 +115,27 @@ function Form(){
                  value={data.start_time}
                  onChange={change_handler}
           />
-          <DaysCheck dayNbr={"0"} daystr={"Monday"} change_handler={change_handler} days={days}/>
-          <DaysCheck dayNbr={"1"} daystr={"Tuesday"} change_handler={change_handler} days={days}/>
-          <DaysCheck dayNbr={"2"} daystr={"Wednesday"} change_handler={change_handler} days={days}/>
-          <DaysCheck dayNbr={"3"} daystr={"Thursday"} change_handler={change_handler} days={days}/>
-          <DaysCheck dayNbr={"4"} daystr={"Friday"} change_handler={change_handler} days={days}/>
-          <DaysCheck dayNbr={"5"} daystr={"Saturday"} change_handler={change_handler} days={days}/>
-          <DaysCheck dayNbr={"6"} daystr={"Sunday"} change_handler={change_handler} days={days}/>
+          <input type="checkbox"
+                 name="wdh"
+                 value={data.wdh}
+                 onChange={change_handler}
+          />
+          <div id = "DayChecks" className={data.wdh ? '':'hidden'}>
+              <DaysCheck dayNbr={"0"} daystr={"Monday"} change_handler={change_handler} days={days}/>
+              <DaysCheck dayNbr={"1"} daystr={"Tuesday"} change_handler={change_handler} days={days}/>
+              <DaysCheck dayNbr={"2"} daystr={"Wednesday"} change_handler={change_handler} days={days}/>
+              <DaysCheck dayNbr={"3"} daystr={"Thursday"} change_handler={change_handler} days={days}/>
+              <DaysCheck dayNbr={"4"} daystr={"Friday"} change_handler={change_handler} days={days}/>
+              <DaysCheck dayNbr={"5"} daystr={"Saturday"} change_handler={change_handler} days={days}/>
+              <DaysCheck dayNbr={"6"} daystr={"Sunday"} change_handler={change_handler} days={days}/>
+          </div>
 
+          <input type="date"
+                 name="date"
+                 value={data.date}
+                 onChange={change_handler}
+                 className={data.wdh ? 'hidden':''}
+          />
           <input type="range"
                  name="esc_steps"
                  value={data.esc_steps}

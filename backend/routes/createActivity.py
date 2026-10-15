@@ -27,14 +27,20 @@ def create():
             ca_id = CatDA.get_category_by_name(category)[0]
             print(ca_id)
             esc_steps = request.form['esc_steps']
-            temp_days = [request.form['0'], request.form['1'], request.form['2'], request.form['3'], request.form['4'], request.form['5'], request.form['6']]
-            days: List[int] = []
-            for i in range(0, len(temp_days)-1):
-                if temp_days[i] == 'true':
-                    days.append(i)
-            if not days:
+            wdh = request.form['wdh']
+            date = request.form['date']
+            print("date:", date)
+            if wdh == "true":
+                temp_days = [request.form['0'], request.form['1'], request.form['2'], request.form['3'], request.form['4'], request.form['5'], request.form['6']]
+                days: List[int] = []
+                for i in range(0, len(temp_days)-1):
+                    if temp_days[i] == 'true':
+                        days.append(i)
+            elif date:
+                days = [int(date.replace('-', ''))]
+            else:
                 days = [int(datetime.date.today().strftime("%Y%m%d"))]
-            print(days)
+            print("days", days)
             print(int(esc_steps))
             actDA.create_activity(name=name, start_time=act_time, esc_steps=int(esc_steps), ca_id=ca_id, days=days)
             return jsonify(success=True)
