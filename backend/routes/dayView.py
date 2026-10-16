@@ -2,7 +2,6 @@ from flask import Blueprint, request
 from DataAccess.activitiesDataAccess import ActivitiesDataAccess
 from DataAccess.daysDataAccess import DaysDataAccess
 import datetime as dt
-
 day_page = Blueprint('dayView', __name__)
 actDA = ActivitiesDataAccess()
 daysDA = DaysDataAccess()

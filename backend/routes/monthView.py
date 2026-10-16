@@ -28,18 +28,38 @@ def month():
         monthdates.append([])
         month_ids.append([])
         activities.append([])
-        for day in range(len(temp_monthdates[week])):
+        for day in range(0, 7):
             activities[week].append([])
-            day_nmbr = day % 7
+            ## parse monthdates to int for db
             monthdates[week].append(int(temp_monthdates[week][day].strftime("%Y%m%d")))
-            month_ids[week].append(daysDA.get_all_by_day(monthdates[week][day]))
-            month_ids[week].append(daysDA.get_all_by_day(day_nmbr))
-            print("month_ids", month_ids[week])
-            print(month_ids[week][day])
-            if month_ids[week][day]:
-                for id in range(len(month_ids[week][day])):
+            ## get acts with corresponding date
+            ##day_acts = []
+            day_acts = daysDA.get_all_by_day(monthdates[week][day])
+            print("day_acts onetime:", day_acts)
+            ## append with wdh acts
+            if bool(wdh_days[day]) & bool(day_acts):
+                day_acts = [day_acts + wdh_days[day]]
+            elif wdh_days[day]:
+                day_acts.append(wdh_days[day])
+            elif day_acts:
+                day_acts = [day_acts]
+
+            print("day_acts together:", day_acts)
+            if day_acts:
+                month_ids[week].append(day_acts[0])
+            else: month_ids[week].append([])
+            ##month_ids[week].append(daysDA.get_all_by_day(day))
+            ##print("month_id week day:", month_ids[week][day])
+            ##print("month_ids week", month_ids[week])
+
+            for id in range(len(month_ids[week][day])):
+                if month_ids[week][day][id]:
                     activities[week][day].append(actDA.get_by_id(month_ids[week][day][id]['act_id']))
+                    print("activities[week][day]: ", activities[week][day])
                     activities[week][day][id]['start_time'] = (dt.datetime.min + activities[week][day][id]['start_time']).time().strftime("%H:%M")
+                else:
+                    activities[week][day].append([])
+            print("activities[week]: ", activities[week])
 
     print("month activities:", activities)
     return jsonify(activities)
