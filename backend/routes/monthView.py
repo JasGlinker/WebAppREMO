@@ -20,7 +20,6 @@ def month():
     for i in range(0, 7):
         wdh_days.append(daysDA.get_all_by_day(i))
 
-    ## parse monthdates to int for db
     monthdates = []
     month_ids = []
     activities = []
@@ -33,7 +32,6 @@ def month():
             ## parse monthdates to int for db
             monthdates[week].append(int(temp_monthdates[week][day].strftime("%Y%m%d")))
             ## get acts with corresponding date
-            ##day_acts = []
             day_acts = daysDA.get_all_by_day(monthdates[week][day])
             print("day_acts onetime:", day_acts)
             ## append with wdh acts
@@ -56,7 +54,10 @@ def month():
                 if month_ids[week][day][id]:
                     activities[week][day].append(actDA.get_by_id(month_ids[week][day][id]['act_id']))
                     print("activities[week][day]: ", activities[week][day])
-                    activities[week][day][id]['start_time'] = (dt.datetime.min + activities[week][day][id]['start_time']).time().strftime("%H:%M")
+                    activities[week][day][id]['start_time'] = ((dt.datetime.min
+                                                                + activities[week][day][id]['start_time'])
+                                                               .time()
+                                                               .strftime("%H:%M"))
                 else:
                     activities[week][day].append([])
             print("activities[week]: ", activities[week])

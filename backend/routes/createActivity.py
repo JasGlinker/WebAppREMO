@@ -33,7 +33,7 @@ def create():
             if wdh == "true":
                 temp_days = [request.form['0'], request.form['1'], request.form['2'], request.form['3'], request.form['4'], request.form['5'], request.form['6']]
                 days: List[int] = []
-                for i in range(0, len(temp_days)-1):
+                for i in range(0, len(temp_days)):
                     if temp_days[i] == 'true':
                         days.append(i)
             elif date:

@@ -11,29 +11,60 @@ daysDA = DaysDataAccess()
 @week_page.route('/weekView', methods=['GET'])
 def weekView():
     today = dt.date.today()
-
+##
+    ##ids = []
+    ##for i in range(0, 7):
+    ##    temp_ids = daysDA.get_all_by_day(i)
+    ##    temp_dt = int((today + dt.timedelta(days = (-today.weekday() + i))).strftime("%Y%m%d"))
+    ##    temp_ids.append(daysDA.get_all_by_day(temp_dt))
+    ##    print("week temp_ids", temp_ids)
+    ##    act_ids = []
+    ##    for temp_id in temp_ids:
+    ##        if temp_id:
+    ##            act_ids.append(temp_id['act_id'])
+    ##    ids.append(act_ids)
+##
+    ##activities = []
+    ##for i in range(0, 7):
+    ##    activities.append([])
+    ##    for id in ids[i]:
+    ##        activities[i].append(actDA.get_by_id(id))
+##
+    ##    for activity in activities[i]:
+    ##        activity['start_time'] = (dt.datetime.min + activity['start_time']).time().strftime("%H:%M")
+    wdh_days = []
     ids = []
-    for i in range(0, 7):
-        temp_ids = daysDA.get_all_by_day(i)
-        temp_dt = int((today + dt.timedelta(days = (-today.weekday() + i))).strftime("%Y%m%d"))
-        temp_ids.append(daysDA.get_all_by_day(temp_dt))
-        print("week temp_ids", temp_ids)
-        act_ids = []
-        for temp_id in temp_ids:
-            if temp_id:
-                act_ids.append(temp_id['act_id'])
-        ids.append(act_ids)
-
     activities = []
-    for i in range(0, 7):
+    for day in range(0, 7):
         activities.append([])
-        for id in ids[i]:
-            activities[i].append(actDA.get_by_id(id))
+        wdh_days.append(daysDA.get_all_by_day(day))
+        date = int((today + dt.timedelta(days=(-today.weekday() + day))).strftime("%Y%m%d"))
+        ## get acts with corresponding date
+        day_acts = daysDA.get_all_by_day(date)
+        ## append with wdh acts
+        if bool(wdh_days[day]) & bool(day_acts):
+            day_acts = [day_acts + wdh_days[day]]
+        elif wdh_days[day]:
+            day_acts.append(wdh_days[day])
+        elif day_acts:
+            day_acts = [day_acts]
 
-        for activity in activities[i]:
-            activity['start_time'] = (dt.datetime.min + activity['start_time']).time().strftime("%H:%M")
+        if day_acts:
+            ids.append(day_acts[0])
+        else:
+            ids.append([])
 
-    print("weekids:", ids)
+        for act_id in range(len(ids[day])):
+            activities[day].append(actDA.get_by_id(ids[day][act_id]['act_id']))
+            activities[day][act_id]['start_time'] = ((dt.datetime.min
+                                                      + activities[day][act_id]['start_time'])
+                                                     .time()
+                                                     .strftime("%H:%M"))
+
+
+
+
+
     print("weekacts: ", activities)
 
     return jsonify(activities)
