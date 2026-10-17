@@ -44,3 +44,8 @@
 .hidden {
   display: none;
 }
+
+.WeekActs {
+  display: grid;
+  grid-template-columns: auto auto auto auto auto auto auto;
+}
