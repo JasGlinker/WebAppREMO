@@ -10,26 +10,20 @@ function DayView(){
         fetch('/dayView', {method: "GET"})
         .then((res)=> res.json())
         .then((el)=>{
-            //console.log(el)
             for (const a in el){
-                console.log("Element from fetch:")
-                console.log(el[a])
                 setAct(values => [...values, <Activity act={el[a]}/>])
-                //console.log(activities)
             }
         });
 
         },[]
     )
 
+    const body_dayview = new FormData()
+    body_dayview.append('type', 'info')
+    body_dayview.append('msg', 'frontend dayview build')
+    fetch('/log', {method: 'POST', body: body_dayview})
+        .catch(error => console.log(error))
 
-    //const activities = []
-    //for(const act of tempActivities){
-    //    activities.push(<Activity act={act}/>)
-    //}
-    console.log("temp Activities")
-    console.log(activities)
-    console.log(activities[0])
     return(
         <div>
             {activities}

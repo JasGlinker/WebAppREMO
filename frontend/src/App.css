@@ -45,7 +45,9 @@
   display: none;
 }
 
-.WeekActs {
+.WeekActs, .Month {
   display: grid;
   grid-template-columns: auto auto auto auto auto auto auto;
 }
+
+

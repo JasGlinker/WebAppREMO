@@ -10,28 +10,30 @@ function MonthView(){
             .then((res) => res.json())
             .then((el) => {
                 console.log(el);
-                //const comp = el.map(week => {
-                //    console.log(week);
-                //    return (<Week week={week}/>)
-                //})
                 for (let week = 0; week < el.length; week++){
                     console.log("week:", el[week])
 //
                     setWeeks(values => [...values, <Week week={el[week]}/>])
                 }
-                //setWeeks(el)
-                //console.log("monthview:", weeks)
             })
 
     }, []);
 
+    const body_Monthview = new FormData()
+    body_Monthview.append('type', 'info')
+    body_Monthview.append('msg', 'Frontend Monthview build')
+    fetch('/log', {method: 'POST', body: body_Monthview})
+        .catch(error => console.log(error))
 
-    //const [compWeeks, setCompWeeks] = useState([])
-    //const tempweeks = weeks.map(week => <Week week={week}/>)
-    //setWeeks(tempweeks)
-    //console.log("Outside: ", weeks)
     return(
         <div className="Month">
+            <p className="WeekHeader">Monday</p>
+            <p className="WeekHeader">Tuesday</p>
+            <p className="WeekHeader">Wednesday</p>
+            <p className="WeekHeader">Thursday</p>
+            <p className="WeekHeader">Friday</p>
+            <p className="WeekHeader">Saturday</p>
+            <p className="WeekHeader">Sunday</p>
             {weeks}
         </div>
     )

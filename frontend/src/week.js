@@ -4,15 +4,6 @@ import Activity from "./activity"
 
 function Week({week}){
     console.log("WEEK", week)
-    //const [weekacts, setActs] = useState({
-    //    mon: [],
-    //    tue: [],
-    //    wed: [],
-    //    thu: [],
-    //    fri: [],
-    //    sat: [],
-    //    sun: []
-    //})
     const weekacts = {
         mon: [],
         tue: [],
@@ -25,13 +16,13 @@ function Week({week}){
     const weekdays = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"]
     for (let i = 0; i < 7; i++){
         for (const act in week[i]){
-            console.log("WEEK ACT IN FOR", week[i][act])
-            //setActs(values => ({...values, [weekdays[i]]: <Activity act={act}/>}))
             weekacts[weekdays[i]].push(<Activity act={week[i][act]}/>)
         }
     }
-    console.log("WEEK ACTS:", weekacts)
-    console.log("WEEK ACTS TUE:", weekacts["tue"])
+
+    const body_week = new FormData()
+    body_week.append('type', 'info')
+    body_week.append('msg', 'frontend week build')
     return(
         <>
             <div className="DayActs Mon">

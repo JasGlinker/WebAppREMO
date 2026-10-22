@@ -78,10 +78,18 @@ function Form(){
     const navigate = useNavigate()
     const submit_handler = (e) => {
         e.preventDefault();
-        console.log(data);
-        console.log("submit clicked");
+        const body_submit = new FormData()
+        body_submit.append('type', 'debug')
+        body_submit.append('msg', 'data:' + JSON.stringify(data) + 'submitted in frontend')
+        fetch('/log', {method: 'POST', body: body_submit})
+            .catch(error => console.log(error))
         if (!data.name || !data.start_time){
             alert("new activity needs to have a name and time")
+            const body_submit_error = new FormData()
+            body_submit_error.append('type', 'warning')
+            body_submit_error.append('msg', 'tried to submit without act_name and start_time')
+            fetch('/log', {method: 'POST', body: body_submit_error})
+                .catch(error => console.log(error))
         }
         else{
             const formData = new FormData();
@@ -91,8 +99,6 @@ function Form(){
             for (const el in days){
                 formData.append(el, days[el]);
             }
-            console.log(formData)
-
             fetch("/create", {method: "POST", body: formData})
                 .catch(error => {
                     alert("error submitting");
@@ -101,6 +107,11 @@ function Form(){
         }
 
     }
+    const body_form = new FormData()
+    body_form.append('type', 'info')
+    body_form.append('msg', 'Submit Form build done')
+    fetch('/log', {method: 'POST', body: body_form})
+        .catch(error => console.log(error))
     return(
        <form onSubmit={submit_handler}>
           <input type="text"

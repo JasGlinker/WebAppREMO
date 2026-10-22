@@ -1,18 +1,28 @@
 import mysql.connector
 from typing import Dict, List, Any
 import json
+import logging
+# Initializing logger
+logger = logging.getLogger(__name__)
+logging.basicConfig(filename="logging.log",
+                    encoding="utf-8" ,
+                    level=logging.DEBUG,
+                    format='%(asctime)s - %(levelname)s - %(message)s')
 
 class DataAccess:
     def __init__(self, table_name: str):
         self.table_name = table_name
         self._load_config()
+        logger.info("DataAccess initialized")
 
     def _load_config(self) -> None:
         with open('config.json', 'r') as f:
             config = json.load(f)
             self.db_config = config['database']
+        logger.info("DataAccess config read")
 
     def _get_connection(self) -> mysql.connector.connection.MySQLConnection:
+        logger.debug("In DataAccess to get connection")
         return mysql.connector.connect(
             host=self.db_config['host'],
             user=self.db_config['user'],
@@ -22,7 +32,7 @@ class DataAccess:
 
     #CRUD operations
     def create(self, data: Dict[str, Any]) -> int:
-        print("in DA create")
+        logger.debug("In DataAccess.create: data: %s", data)
         conn = self._get_connection()
         cursor = conn.cursor()
 
@@ -40,6 +50,7 @@ class DataAccess:
             conn.close()
 
     def read(self, id: int) -> Dict[str, Any]:
+        logger.debug("In DataAccess.read: id: %s", id)
         conn = self._get_connection()
         cursor = conn.cursor(dictionary=True)
 
@@ -54,6 +65,7 @@ class DataAccess:
             conn.close()
 
     def read_all(self) -> Dict[str, Any]:
+        logger.debug("In DataAccess.read_all")
         conn = self._get_connection()
         cursor = conn.cursor(dictionary=True)
 
@@ -67,6 +79,7 @@ class DataAccess:
             conn.close()
 
     def update(self, id: int, data: Dict[str, Any]) -> bool:
+        logger.debug("In DataAccess.update: id: %s data: %s", id, data)
         conn = self._get_connection()
         cursor = conn.cursor()
 
@@ -82,6 +95,7 @@ class DataAccess:
             conn.close()
 
     def delete(self, id: int) -> bool:
+        logger.debug("In DataAccess.delete: id: %s", id)
         conn = self._get_connection()
         cursor = conn.cursor()
 

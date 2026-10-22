@@ -13,17 +13,21 @@ function WeekView(){
 
     }, [])
 
+    const body_Weekview = new FormData()
+    body_Weekview.append('type', 'info')
+    body_Weekview.append('msg', 'Frontend Weekview build')
+    fetch('/log', {method: 'POST', body: body_Weekview})
+        .catch(error => console.log(error))
+
     return(
         <div className="WeekActs">
-            <div className="WeekHeader">
-                <p>Monday</p>
-                <p>Tuesday</p>
-                <p>Wednesday</p>
-                <p>Thursday</p>
-                <p>Friday</p>
-                <p>Saturday</p>
-                <p>Sunday</p>
-            </div>
+            <p className="WeekHeader">Monday</p>
+            <p className="WeekHeader">Tuesday</p>
+            <p className="WeekHeader">Wednesday</p>
+            <p className="WeekHeader">Thursday</p>
+            <p className="WeekHeader">Friday</p>
+            <p className="WeekHeader">Saturday</p>
+            <p className="WeekHeader">Sunday</p>
             {week}
         </div>
 

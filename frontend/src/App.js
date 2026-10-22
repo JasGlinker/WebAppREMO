@@ -14,12 +14,19 @@ import MonthView from "./MonthView";
 
 
 function App(){
+    const body_app = new FormData()
+    body_app.append('type', 'info')
+    body_app.append('msg', 'Frontend App initiated with main.')
     return(
         <Main/>
     );
 }
 
 function Main(){
+    const body_main = new FormData()
+    body_main.append('type', 'info')
+    body_main.append('msg', 'Frontend Main initiated with Routes.')
+
     return(
         <Routes>
             <Route path="/" element={<DayView/>}></Route>
