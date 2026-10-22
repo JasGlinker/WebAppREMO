@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react";
 import "./App.css";
 import Week from "./week";
+import Menu from "./menu";
 
 function WeekView(){
     const [week, setWeek] = useState();
@@ -20,16 +21,20 @@ function WeekView(){
         .catch(error => console.log(error))
 
     return(
-        <div className="WeekActs">
-            <p className="WeekHeader">Monday</p>
-            <p className="WeekHeader">Tuesday</p>
-            <p className="WeekHeader">Wednesday</p>
-            <p className="WeekHeader">Thursday</p>
-            <p className="WeekHeader">Friday</p>
-            <p className="WeekHeader">Saturday</p>
-            <p className="WeekHeader">Sunday</p>
-            {week}
-        </div>
+        <>
+            <Menu/>
+            <div className="WeekActs">
+                <p className="WeekHeader">Monday</p>
+                <p className="WeekHeader">Tuesday</p>
+                <p className="WeekHeader">Wednesday</p>
+                <p className="WeekHeader">Thursday</p>
+                <p className="WeekHeader">Friday</p>
+                <p className="WeekHeader">Saturday</p>
+                <p className="WeekHeader">Sunday</p>
+                {week}
+            </div>
+        </>
+
 
     )
 }

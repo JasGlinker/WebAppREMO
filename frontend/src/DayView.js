@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react";
 import "./App.css";
 import Activity from "./activity";
+import Menu from "./menu";
 
 
 
@@ -25,10 +26,12 @@ function DayView(){
         .catch(error => console.log(error))
 
     return(
-        <div>
+        <>
+            <Menu/>
+            <div>
             {activities}
-        </div>
-
+            </div>
+        </>
     );
 
 }
