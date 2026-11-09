@@ -2,10 +2,19 @@ import React, {useState, useEffect} from "react";
 import "./App.css";
 
 
-function Activity({act}){
+function Activity({act, scope}){
 
+    let category = ''
     const name = act['act_name']
     const time = act['start_time']
+    if (act['category'] === 1){
+        category = 'work'
+    } else if(act['category'] === 2){
+        category = 'uni'
+    } else if(act['category'] === 3){
+        category = 'lifestyle'
+    }
+
     const [done, setDone] = useState(false)
     function handleDone(){
         setDone(!done)
@@ -26,13 +35,29 @@ function Activity({act}){
     fetch('/log', {method: 'POST', body: body_act})
         .catch(error => console.log(error))
 
-    return(
-        <div>
-            <button onClick={handleDone}></button>
-            <p className={done ? 'crossed':''}>{name}</p>
-            <p className={done ? 'crossed':''}>{time}</p>
-        </div>
-    )
+    if (scope === "day"){
+        return(
+            <div className={"dayAct " + category}>
+                <button className="actbtn" onClick={handleDone}></button>
+                <p className={done ? 'crossed time':'time'}>{time}</p>
+                <p className={done ? 'crossed name':'name'}>{name}</p>
+            </div>
+        )
+    } else if(scope === "week"){
+        return(
+            <div className={"weekDayAct " + category}>
+                <button className="actbtn" onClick={handleDone}></button>
+                <p className={done ? 'crossed time':'time'}>{time}</p>
+                <p className={done ? 'crossed name':'name'}>{name}</p>
+            </div>
+        )
+    } else if(scope === "month"){
+        return(
+            <div className={"monthWeekDayAct " + category}>
+                <p className={done ? 'crossed name':'name'}>{name}</p>
+            </div>
+        )
+    }
 }
 
 export default Activity

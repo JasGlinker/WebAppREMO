@@ -20,9 +20,9 @@ def weekView():
     today = dt.date.today()
     wdh_days = []
     ids = []
-    activities = []
+    activities = {'date': today + dt.timedelta(days=-today.weekday()), 'acts': []}
     for day in range(0, 7):
-        activities.append([])
+        activities['acts'].append([])
         wdh_days.append(daysDA.get_all_by_day(day))
         date = int((today + dt.timedelta(days=(-today.weekday() + day))).strftime("%Y%m%d"))
         ## get acts with corresponding date
@@ -41,9 +41,9 @@ def weekView():
             ids.append([])
 
         for act_id in range(len(ids[day])):
-            activities[day].append(actDA.get_by_id(ids[day][act_id]['act_id']))
-            activities[day][act_id]['start_time'] = ((dt.datetime.min
-                                                      + activities[day][act_id]['start_time'])
+            activities['acts'][day].append(actDA.get_by_id(ids[day][act_id]['act_id']))
+            activities['acts'][day][act_id]['start_time'] = ((dt.datetime.min
+                                                      + activities['acts'][day][act_id]['start_time'])
                                                      .time()
                                                      .strftime("%H:%M"))
 

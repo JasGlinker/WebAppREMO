@@ -36,9 +36,9 @@ def month():
     for week in range(len(temp_monthdates)):
         monthdates.append([])
         month_ids.append([])
-        activities.append([])
+        activities.append({'date': temp_monthdates[week][0].strftime("%Y-%m-%d"), 'acts': []})
         for day in range(0, 7):
-            activities[week].append([])
+            activities[week]['acts'].append([])
             ## parse monthdates to int for db
             monthdates[week].append(int(temp_monthdates[week][day].strftime("%Y%m%d")))
             ## get acts with corresponding date
@@ -60,14 +60,14 @@ def month():
 
             for id in range(len(month_ids[week][day])):
                 if month_ids[week][day][id]:
-                    activities[week][day].append(actDA.get_by_id(month_ids[week][day][id]['act_id']))
-                    logger.debug("activities[week][day] in MonthView: %s" %activities[week][day])
-                    activities[week][day][id]['start_time'] = ((dt.datetime.min
-                                                                + activities[week][day][id]['start_time'])
+                    activities[week]['acts'][day].append(actDA.get_by_id(month_ids[week][day][id]['act_id']))
+                    logger.debug("activities[week][day] in MonthView: %s" %activities[week]['acts'][day])
+                    activities[week]['acts'][day][id]['start_time'] = ((dt.datetime.min
+                                                                + activities[week]['acts'][day][id]['start_time'])
                                                                .time()
                                                                .strftime("%H:%M"))
                 else:
-                    activities[week][day].append([])
+                    activities[week]['acts'][day].append([])
             logger.debug("activities[week] in MonthView: %s" %activities[week])
 
     logger.debug('month activities: %s' %activities)

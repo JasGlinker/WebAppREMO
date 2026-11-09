@@ -12,12 +12,17 @@ function DayView(){
         .then((res)=> res.json())
         .then((el)=>{
             for (const a in el){
-                setAct(values => [...values, <Activity act={el[a]}/>])
+                setAct(values => [...values, <Activity act={el[a]} scope="day"/>])
             }
         });
 
         },[]
     )
+
+    const weekstr = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+    const todaydate = new Date()
+    const todaystr = todaydate.toLocaleDateString()
+    const todayday = weekstr[todaydate.getDay()]
 
     const body_dayview = new FormData()
     body_dayview.append('type', 'info')
@@ -28,8 +33,9 @@ function DayView(){
     return(
         <>
             <Menu/>
-            <div>
-            {activities}
+            <div className="DayView">
+                <p className='HeadlineDay'>{todayday + ' ' + todaystr}</p>
+                {activities}
             </div>
         </>
     );

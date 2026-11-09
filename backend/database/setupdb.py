@@ -44,7 +44,7 @@ cursor.execute("""CREATE TABLE IF NOT EXISTS escalations (
 
 # make default categories
 cursor.execute("""INSERT INTO categories (ca_name, color) 
-                  VALUES ('work', '#ffb30f'), ('uni','#11d103');""")
+                  VALUES ('work', '#ffb30f'), ('uni','#11d103'), ('lifestyle', '#71040b');""")
 
 
 #make default esc_times

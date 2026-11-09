@@ -9,7 +9,7 @@ function WeekView(){
         fetch('/weekView', {method: "GET"})
             .then((res) => res.json())
             .then((el)=> {
-                setWeek(<Week week={el}/>)
+                setWeek(<Week week={el['acts']} scope="week" startday={el['date']}/>)
             });
 
     }, [])
@@ -24,13 +24,6 @@ function WeekView(){
         <>
             <Menu/>
             <div className="WeekActs">
-                <p className="WeekHeader">Monday</p>
-                <p className="WeekHeader">Tuesday</p>
-                <p className="WeekHeader">Wednesday</p>
-                <p className="WeekHeader">Thursday</p>
-                <p className="WeekHeader">Friday</p>
-                <p className="WeekHeader">Saturday</p>
-                <p className="WeekHeader">Sunday</p>
                 {week}
             </div>
         </>
