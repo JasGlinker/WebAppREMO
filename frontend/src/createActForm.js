@@ -11,7 +11,7 @@ function CategorySelect({cat, change_handler}) {
         options.push(<option value={elem}>{elem}</option>)
     }
     return (
-        <label> Category:
+        <label className="input category"> Category:
             <select name="category" onChange={change_handler}>
                 {options}
             </select>
@@ -96,6 +96,7 @@ function Form(){
                 .catch(error => {
                     alert("error submitting");
                     console.log(error);})
+            alert("New activity " + data.name + " created.")
             navigate("/")
         }
 
@@ -108,8 +109,8 @@ function Form(){
     return(
         <>
             <Menu/>
-            <form onSubmit={submit_handler}>
-                <label>Name:
+            <form className="createForm" onSubmit={submit_handler}>
+                <label className="input name">Name:
                     <input type="text"
                            name="name"
                            placeholder="Name"
@@ -117,7 +118,7 @@ function Form(){
                            onChange={change_handler}
                     />
                 </label>
-                <label> Start Time:
+                <label className="input time"> Start Time:
                     <input type="time"
                            name="start_time"
                            placeholder="09:00"
@@ -125,14 +126,14 @@ function Form(){
                            onChange={change_handler}
                     />
                 </label>
-                <label> Repeating:
+                <label className="input repeat"> Repeating:
                     <input type="checkbox"
                            name="wdh"
                            value={data.wdh}
                            onChange={change_handler}
                     />
                 </label>
-                <div id = "DayChecks" className={data.wdh ? '':'hidden'}>
+                <div id = "DayChecks" className={data.wdh ? 'input days':'input days hidden'}>
                     <DaysCheck dayNbr={"0"} daystr={"Monday"} change_handler={change_handler} days={days}/>
                     <DaysCheck dayNbr={"1"} daystr={"Tuesday"} change_handler={change_handler} days={days}/>
                     <DaysCheck dayNbr={"2"} daystr={"Wednesday"} change_handler={change_handler} days={days}/>
@@ -141,7 +142,7 @@ function Form(){
                     <DaysCheck dayNbr={"5"} daystr={"Saturday"} change_handler={change_handler} days={days}/>
                     <DaysCheck dayNbr={"6"} daystr={"Sunday"} change_handler={change_handler} days={days}/>
                 </div>
-                <label>Date:
+                <label className="input date">Date:
                     <input type="date"
                            name="date"
                            value={data.date}
@@ -149,7 +150,7 @@ function Form(){
                            className={data.wdh ? 'hidden':''}
                     />
                 </label>
-                <label>Escalation Steps:
+                <label className="input esc">Escalation Steps:
                     <input type="range"
                            name="esc_steps"
                            value={data.esc_steps}
@@ -158,9 +159,11 @@ function Form(){
                            max="5"
                            step="1"
                     />
+                    <p className="escDisplay">{data.esc_steps}</p>
                 </label>
+
                 <CategorySelect cat={cat} change_handler={change_handler}/>
-                <button type="submit" onClick={submit_handler}> submit </button>
+                <button className="submitBtn" type="submit" onClick={submit_handler}> submit </button>
             </form>
         </>
     );
