@@ -142,12 +142,11 @@ function Form(){
                     <DaysCheck dayNbr={"5"} daystr={"Saturday"} change_handler={change_handler} days={days}/>
                     <DaysCheck dayNbr={"6"} daystr={"Sunday"} change_handler={change_handler} days={days}/>
                 </div>
-                <label className="input date">Date:
+                <label className={data.wdh ? 'hidden input date':'input date'}>Date:
                     <input type="date"
                            name="date"
                            value={data.date}
                            onChange={change_handler}
-                           className={data.wdh ? 'hidden':''}
                     />
                 </label>
                 <label className="input esc">Escalation Steps:

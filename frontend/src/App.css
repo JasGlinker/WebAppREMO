@@ -194,6 +194,10 @@ input[type=range]{
   color: black;
 }
 
+.fa-bars {
+  color: #d4d4d4;
+}
+
 .work {
   text-decoration: underline #ffb30f;
   text-decoration-thickness: 0.1rem;
